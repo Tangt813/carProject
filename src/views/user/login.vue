@@ -1,18 +1,18 @@
 <template >
-  <div>
+  <div class="login-page">
     <div class="header-content" >
       <div class="logo-part" >
         <!--        <img src="../assets/logo.png" width="30" height="30">-->
-        <span>面向网格化及群体智能聚合的城市电网电动汽车协同调度软件</span>
+        <span>汽车发动机故障诊断和预警系统</span>
       </div>
     </div>
 
-    <el-form  ref="AccountForm" :model="account" :rules="rules" class="demo-ruleForm login-container" label-position="left"
-             label-width="0px">
+    <el-form  ref="AccountForm" :model="account" :rules="rules" class=" login-container" label-position="left"
+             label-width="0px" >
 
-      <h3 class="title">欢迎登录</h3>
+      <h3 class="title">登录</h3>
       <el-form-item prop="username">
-        <el-input v-model="account.username" auto-complete="off" placeholder="手机号或公司企业码" type="text"></el-input>
+        <el-input v-model="account.username" auto-complete="off" placeholder="请输入登录邮箱/登录名" type="text"></el-input>
       </el-form-item>
       <el-form-item prop="pwd">
         <el-input v-model="account.pwd" :autofocus="pwdFocus" auto-complete="off" placeholder="请输入登录密码"
@@ -112,7 +112,7 @@ export default {
       if (status == 'success') {
         localStorage.setItem('access-user', JSON.stringify(result));
         window.localStorage.removeItem('register-user');
-        that.$router.push({path: '/dashboard'});
+        that.$router.push({path: '/carMonitoringData'});
       } else {
         this.loading = false;
         this.$message.error("登录失败，账号或密码错误");

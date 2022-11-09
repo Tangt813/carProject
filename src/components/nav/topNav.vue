@@ -6,7 +6,7 @@
 <!--        <a href="/"><div  style="margin:8px;"></div></a>-->
 <!--      </div>-->
       <div class="topbar-logos" style="width: 550px" align="left" >
-        <a   href="/" style="color: #fff;font-size: 20px"><span   v-show="!$store.state.collapsed">面向网格化及群体智能聚合的城市电网电动汽车协同调度软件</span></a>
+        <a   href="/" style="color: #fff;font-size: 20px"><span   v-show="!$store.state.collapsed">汽车发动机故障诊断和预警系统</span></a>
       </div>
 
       <div class="topbar-account topbar-btn"  >

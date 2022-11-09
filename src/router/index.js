@@ -6,15 +6,13 @@ import Router from 'vue-router'
 import TopNav from '@/components/nav/topNav.vue'
 import LeftNav from '@/components/nav/leftNav.vue'
 import Home from '@/views/home.vue'
-import Dashboard from '@/views/workbench/dashboard.vue'
-import pic2 from '@/views/pic/pic2.vue'
-import pic1 from '@/views/pic/pic1.vue'
-import pic3 from "../views/pic/pic3"
-import pic4 from "../views/pic/pic4"
-import pic4Subitem1 from "../views/pic/pic4Subitem/pic4Subitem1"
-import pic4Subitem2 from "../views/pic/pic4Subitem/pic4Subitem2"
 import NotFound from '../components/404.vue'
 import Register from '../views/user/register'
+import faultDetectModel from "../views/engineView/faultDetectModel";
+import carMonitoringData from "../views/engineView/carMonitoringData";
+import alarmThresholdSelect from "../views/engineView/alarmThresholdSelect";
+import faultAlarmModel from "../views/engineView/faultAlarmModel";
+import systemDescription from "../views/engineView/systemDescription";
 // 懒加载方式，当路由被访问的时候才加载对应组件
 const Login = resolve => require(['../views/user/login'], resolve)
 
@@ -44,97 +42,75 @@ let router = new Router({
       name:'register'
     },
     {
-      path: '/dashboard',
+      path: '/carMonitoringData',
       type: 'home',
       name: 'home',
       component: Home,
 
       children: [
         {
-          path: '/dashboard',
-          name: '首页',
+          path: '/carMonitoringData',
+          name: '汽车监控数据',
           components: {
-            default: Dashboard,
+            default: carMonitoringData,
             top: TopNav,
             aside: LeftNav
           },
           leaf: true, // 只有一个节点
-          iconCls: 'iconfont icon-home', // 图标样式class
+          iconCls: 'el-icon-s-platform', // 图标样式class
           menuShow: true
         },
         {
-          path: '/pic1',
+          path: '/faultDetectModel',
           components: {
-            default: pic1,
+            default: faultDetectModel,
             top: TopNav,
             aside: LeftNav
           },
-          name: '可调度潜力评估',
-          iconCls: 'el-icon-menu',
-          leaf: true, // 只有一个节点
-          menuShow: true
-
-        },
-        {
-          path: '/pic2',
-          components: {
-            default: pic2,
-            top: TopNav,
-            aside: LeftNav
-          },
-          name: '充电负荷预测',
-          iconCls: 'el-icon-menu',
+          name: '故障检测模型',
+          iconCls: 'el-icon-search',
           leaf: true, // 只有一个节点
           menuShow: true
 
         },
         {
-          path: '/pic3',
+          path: '/alarmThresholdSelect',
           components: {
-            default: pic3,
+            default: alarmThresholdSelect,
             top: TopNav,
             aside: LeftNav
           },
-          name: '智能聚合响应',
-          iconCls: 'el-icon-menu',
+          name: '预警阈值选择',
+          iconCls: 'el-icon-thumb',
           leaf: true, // 只有一个节点
           menuShow: true
 
         },
         {
-          path: '/pic4',
+          path: '/faultAlarmModel',
           components: {
-            default: pic4,
+            default: faultAlarmModel,
             top: TopNav,
             aside: LeftNav
           },
-          name: '协同优化调度',
-          iconCls: 'el-icon-menu',
+          name: '故障预警模型',
+          iconCls: 'el-icon-s-order',
           leaf:true,
           menuShow: true
-          // children:
-          // [{
-          //   path: '/pic4/pic4Subitem1',
-          //   components: {
-          //     default: pic4Subitem1,
-          //     top: TopNav,
-          //     aside: LeftNav
-          //   },
-          //   name: '协同优化调度子项1',
-          //   menuShow: true
-          // },
-          //   {
-          //     path: '/pic4/pic4Subitem2',
-          //     components: {
-          //       default: pic4Subitem2,
-          //       top: TopNav,
-          //       aside: LeftNav
-          //     },
-          //     name: '协同优化调度子项2',
-          //     menuShow: true
-          //   }]
+        },
+        {
+          path: '/systemDescription',
+          components: {
+            default: systemDescription,
+            top: TopNav,
+            aside: LeftNav
+          },
+          name: '系统说明',
+          iconCls: 'el-icon-s-tools',
+          leaf:true,
+          menuShow: true
+        },
 
-        }
 
       ]
     }
