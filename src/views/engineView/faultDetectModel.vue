@@ -2,6 +2,7 @@
   <div class="box">
     <el-header>
       <div class="page_header">故障检测模型</div>
+<!--      <el-button @click="test"></el-button>-->
     </el-header>
     <el-main>
       <div class="parameter_part">
@@ -123,13 +124,15 @@
       <div class="train_result">
         <div class="part_header">模型结果</div>
         <div class="train_set_result mt10" style="display: -webkit-box;">
-          <div style="position: relative;top: 250px">训练集结果</div>
-          <img class="picture ml20" id="train_set_result_table" >
+          <div style="position: relative;top: 250px;font-weight: bold">训练集结果</div>
+          <table class="picture ml20" id="train_set_result_table" cellspacing="10" >
+          </table>
           <img class="picture ml20" id="train_set_result_hot_page" >
         </div>
-        <div class="test_set_result mt10" style="display: -webkit-box;">
-          <div style="position: relative;top: 250px">测试集结果</div>
-          <img class="picture ml20" id="test_set_result_table">
+        <div class="test_set_result mt20" style="display: -webkit-box;">
+          <div style="position: relative;top: 250px;font-weight: bold">测试集结果</div>
+          <table class="picture ml20" id="test_set_result_table" cellspacing="10">
+          </table>
           <img class="picture ml20" id="test_set_result_hot_page" >
         </div>
       </div>
@@ -141,7 +144,10 @@
 import axios from "_axios@0.18.1@axios";
 import util from "../../common/util";
 export default {
-  name: "faultDetectModel",
+  beforeRouteLeave(to,from,next){
+    to.meta.keepAlive = true
+    next(0)
+  },
   data(){
     return{
       n_estimators:250,
@@ -155,35 +161,126 @@ export default {
     }
   },
   methods:{
+    test()
+    {
+      var string= "               precision    recall  f1-score   support\n\n        157|4       0.87      0.67      0.76       286\n       2123|2       0.85      0.46      0.60       108\n       3826|0       0.96      0.63      0.76       492\n      4339|11       0.85      0.60      0.70       688\n     520243|1       0.77      0.60      0.68       446\n     520243|4       0.93      0.51      0.66       193\n     520266|4       0.82      0.46      0.59       249\n     520268|4       0.84      0.79      0.81       661\n     520462|0       0.80      0.45      0.57       141\n     520557|2       0.76      0.69      0.72       301\n     523010|1       0.85      0.61      0.71       294\n    523017|20       0.88      0.73      0.80       454\n      5393|22       0.81      0.30      0.44       225\n         98|0       0.83      0.61      0.70       157\nNormal|Normal       0.72      0.93      0.81      4305\n\n     accuracy                           0.77      9000\n    macro avg       0.84      0.60      0.69      9000\n weighted avg       0.79      0.77      0.76      9000\n";
+      var list=string.split('\n');
+      console.log(list);
+      for(let i =0; i<list.length; i++)
+      {
+        var charList =list[i].split(' ');
+        console.log(charList);
+      }
+
+    },
     train(){
-      this.waiting=true;
       if(parseFloat(this.x)+parseFloat(this.y)+parseFloat(this.z)!==1.0){
         this.$message.error('x,y,z之和不等于1!');
       }
       else{
+        this.waiting=true;
+        let that=this;
         var url=util.faultDetectModelTrainUrl;
-        axios.post(url,{
-          n_estimators:this.n_estimators,
-          RF_max_depth:this.RF_max_depth,
-          XGB_max_depth:this.XGB_max_depth,
-          n_neighbors:this.n_neighbors,
-          x:this.x,
-          y:this.y,
-          z:this.z,
+        axios.get(url,{
+          params:{
+            n_estimators:this.n_estimators,
+            RF_max_depth:this.RF_max_depth,
+            XGB_max_depth:this.XGB_max_depth,
+            n_neighbors:this.n_neighbors,
+            x:this.x,
+            y:this.y,
+            z:this.z,
+          }
         }).then(function (res) {
 
-          var train_set_result_table=document.getElementById('train_set_result_table');
           var train_set_result_hot_page=document.getElementById('train_set_result_hot_page');
-          var test_set_result_table=document.getElementById('test_set_result_table');
           var test_set_result_hot_page=document.getElementById('test_set_result_hot_page');
 
-          train_set_result_table.src=res.result.data;
-          train_set_result_hot_page.src=res.result.data;
-          test_set_result_table.src=res.result.data;
-          test_set_result_hot_page.src=res.result.data;
+          var train_set_result_table_string=res.data.result.test_data;
+          train_set_result_hot_page.src=res.data.result.test_image;
+          var test_set_result_table_string=res.data.result.train_data;
+          test_set_result_hot_page.src=res.data.result.train_image;
+          var train_set_result_table_string_list=train_set_result_table_string.split('\n');
+          var test_set_result_table_string_list=test_set_result_table_string.split('\n');
+          var train_set_result_table=document.getElementById('train_set_result_table');
+          var test_set_result_table=document.getElementById('test_set_result_table');
+          train_set_result_table.innerHTML='';
+          test_set_result_table.innerText='';
+          for(let i =0; i<train_set_result_table_string_list.length; i++)
+          {
+            var tr=document.createElement('tr');
+            var charList =train_set_result_table_string_list[i].split(' ');
+            if(i===0)
+            {
+              var td=document.createElement('td');
+              tr.appendChild(td);
+            }
+            for(let j=0;j<charList.length;j++)
+            {
+              if(charList[j].replace(' ','').length!=0)
+              {
+                if(charList[j]==='macro'||charList[j]==='weighted')
+                {
+                  var td=document.createElement('td');
+                  td.innerText=charList[j]+' '+charList[j+1];
+                  j++;
+                  tr.appendChild(td);
+                }
+                else
+                {
+                  var td=document.createElement('td');
+                  td.innerText=charList[j];
+                  tr.appendChild(td);
+                  if(charList[j]==='accuracy')
+                  {
+                    var td=document.createElement('td');
+                    tr.appendChild(td);
+                    td=document.createElement('td');
+                    tr.appendChild(td);
+                  }
+                }
+              }
+
+            }
+            train_set_result_table.appendChild(tr);
+          }
+
+          for(let i =0; i<test_set_result_table_string_list.length; i++)
+          {
+            var tr=document.createElement('tr');
+            var charList =test_set_result_table_string_list[i].split(' ');
+            for(let j=0;j<charList.length;j++)
+            {
+              if(charList[j].replace(' ','').length!=0)
+              {
+                if(charList[j]==='macro'||charList[j]==='weighted')
+                {
+                  var td=document.createElement('td');
+                  td.innerText=charList[j]+' '+charList[j+1];
+                  j++;
+                  tr.appendChild(td);
+                }
+                else{
+                  var td=document.createElement('td');
+                  td.innerText=charList[j];
+                  tr.appendChild(td);
+                  if(charList[j]==='accuracy')
+                  {
+                    var td=document.createElement('td');
+                    tr.appendChild(td);
+                    td=document.createElement('td');
+                    tr.appendChild(td);
+                  }
+                }
+              }
+            }
+            test_set_result_table.appendChild(tr);
+          }
+          that.waiting=false;
+          console.log(that.waiting)
         })
       }
-      this.waiting=false;
+
     },
   }
 }

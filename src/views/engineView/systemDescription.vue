@@ -18,7 +18,10 @@
 
 <script>
 export default {
-  name: "systemDescription"
+  beforeRouteLeave(to,from,next){
+    to.meta.keepAlive = true
+    next(0)
+  },
 }
 </script>
 

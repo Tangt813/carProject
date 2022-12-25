@@ -442,26 +442,27 @@ aside .el-submenu .el-menu-item.is-active:hover, aside .el-menu-item.is-active:h
 .mt10{
   margin-top: 10px;
 }
+.mt20{
+  margin-top:20px;
+}
 .ml20{
   margin-left: 20px;
 }
-.picture{
-  width: 500px;
-  height: 500px;
-  background: red;
+
+#pic{
+  height: 1100px;
+
 }
 .content_box{
   width: 100%;
-
+  display: flex;
 }
 .table{
-  width: 50%;
-  height: 500px;
-  background: black;
+  width: 600px;
 }
 .charts{
-  width: 50%;
-  height: 500px;
-  background: red;
+  flex-grow: 1;
+  height: 900px;
+  /*background: red;*/
 }
 /* sidebar style end */

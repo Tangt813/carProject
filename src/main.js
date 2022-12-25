@@ -29,6 +29,16 @@ Vue.filter('formatDateTime', function (value) {
   let d = date.getDate();
   return y + mon + d;
 });
+import VueSocketIO from 'vue-socket.io'
+
+Vue.use(new VueSocketIO({
+
+  debug: false,
+
+  connection: 'http://124.71.131.138:5000/modelData',  //
+
+}))
+
 
 new Vue({
   router,

@@ -9,6 +9,7 @@
         :action=this.carMonitoringImportFileUrl
         :on-success="handleSuccess"
         class="upload-demo"
+        :multiple="false"
         drag
         style="text-align: center">
         <i class="el-icon-upload"></i>
@@ -17,10 +18,8 @@
       <div id="car_monitoring_data_box" class="data_box">
         <div style="height:800px;width:98%;background:white">
           <el-table
-            :cell-style="cellStyle"
             :current-page.sync="currentPage"
             :data="carMonitoringTableData"
-            :header-cell-style="tableHeaderCellStyle"
             border
             class="xlsx"
             height="750"
@@ -57,7 +56,6 @@ import axios from "axios";
 import util from "../../common/util";
 
 export default {
-  name: "carMonitoringData",
   data() {
     return {
       currentPage: 1,
@@ -70,7 +68,6 @@ export default {
     }
   },
   methods: {
-
     handleSuccess(res) {
       // console.log(res)
       if (res.code === "200") {
@@ -84,17 +81,6 @@ export default {
         this.$message.error('上传错误，请检查文件是否符合规定');
       }
 
-      // this.$message.success('图片上传成功')
-    },
-    tableHeaderCellStyle() {
-      return 'border-color: #868686; color: #606266; background-color: #aaccee;'
-    },
-    cellStyle({row, column, rowIndex, columnIndex}) {
-      if (columnIndex === 1) { //指定坐标
-        return 'color:#00C1DE'
-      } else {
-        return ''
-      }
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -116,6 +102,10 @@ export default {
         }
       })
     },
+  },
+  beforeRouteLeave(to,from,next){
+    to.meta.keepAlive = true
+    next(0)
   }
 }
 </script>

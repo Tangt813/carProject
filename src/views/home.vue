@@ -9,7 +9,9 @@
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <transition name="fade" mode="out-in">
-            <router-view></router-view>
+            <keep-alive>
+              <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
           </transition>
         </div>
       </section>
