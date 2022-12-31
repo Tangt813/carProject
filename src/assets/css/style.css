@@ -358,9 +358,10 @@ aside .el-submenu .el-menu-item.is-active:hover, aside .el-menu-item.is-active:h
   display:none;
 }
 .login-page{
+  background: url("../images/desktop.jpg") no-repeat;
+  background-size:cover ;
   position: absolute;
   width: 100%;
-  background: #00c1de;
 }
 .el-upload-dragger
 {
@@ -433,11 +434,15 @@ aside .el-submenu .el-menu-item.is-active:hover, aside .el-menu-item.is-active:h
   background: #00c1de;
   width: 80%;
   margin-left: 10%;
-  height: 300px;
+  height: 900px;
   text-align: center;
 }
 .text{
   font-size: 20px;
+  float: left;
+}
+.text span{
+  float: left;
 }
 .mt10{
   margin-top: 10px;

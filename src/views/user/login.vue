@@ -2,7 +2,7 @@
   <div class="login-page">
     <div class="header-content" >
       <div class="logo-part" >
-        <!--        <img src="../assets/logo.png" width="30" height="30">-->
+
         <span>汽车发动机故障诊断和预警系统</span>
       </div>
     </div>

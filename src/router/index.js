@@ -6,11 +6,11 @@ import LeftNav from '@/components/nav/leftNav.vue'
 import Home from '@/views/home.vue'
 import NotFound from '../components/404.vue'
 import Register from '../views/user/register'
-import faultDetectModel from "@/views/engineView/faultDetectModel.vue";
-import carMonitoringData from "@/views/engineView/carMonitoringData.vue";
-import alarmThresholdSelect from "@/views/engineView/alarmThresholdSelect.vue";
-import faultAlarmModel from "@/views/engineView/faultAlarmModel.vue";
-import systemDescription from "@/views/engineView/systemDescription.vue";
+import faultDetectModel from "../views/engineView/faultDetectModel";
+import carMonitoringData from "../views/engineView/carMonitoringData";
+import alarmThresholdSelect from "../views/engineView/alarmThresholdSelect";
+import faultAlarmModel from "../views/engineView/faultAlarmModel";
+import systemDescription from "../views/engineView/systemDescription";
 // 懒加载方式，当路由被访问的时候才加载对应组件
 const Login = resolve => require(['../views/user/login'], resolve)
 
@@ -42,7 +42,7 @@ let router = new Router({
     {
       path: '/carMonitoringData',
       type: 'home',
-      name: '汽车监控数据',
+      name: 'home',
       component: Home,
       meta:{
         keepAlive:true
