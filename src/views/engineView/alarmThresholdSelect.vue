@@ -83,62 +83,58 @@ export default {
       faultTypeOptions: [
         {
           value: 1,
-          label: 'Normal|Normal'
-        },
-        {
-          value: 2,
           label: '520243|1'
         },
         {
-          value: 3,
+          value: 2,
           label: '523017|20'
         },
         {
-          value: 4,
+          value: 3,
           label: '520557|2'
         },
         {
-          value: 5,
+          value: 4,
           label: '520268|4'
         },
         {
-          value: 6,
+          value: 5,
           label: '5393|22'
         },
         {
-          value: 7,
+          value: 6,
           label: '520243|4'
         },
         {
-          value: 8,
+          value: 7,
           label: '3826|0'
         },
         {
-          value: 9,
+          value: 8,
           label: '4339|11'
         },
         {
-          value: 10,
+          value: 9,
           label: '157|4'
         },
         {
-          value: 11,
+          value: 10,
           label: '2123|2'
         },
         {
-          value: 12,
+          value: 11,
           label: '520462|0'
         },
         {
-          value: 13,
+          value: 12,
           label: '520266|4'
         },
         {
-          value: 14,
+          value: 13,
           label: '98|0'
         },
         {
-          value: 15,
+          value: 14,
           label: '523010|1'
         }
       ],
@@ -147,12 +143,11 @@ export default {
   },
   methods: {
     changeFaultType() {
-      console.log("?")
       let url = util.changeFaultTypeUrl;
       let that=this;
       axios.get(url, {
         params: {
-          index: this.faultTypeOptions[this.faultType]['label'],
+          index: this.faultTypeOptions[this.faultType-1]['label'],
         }
       }).then(function (res) {
         console.log(res);
