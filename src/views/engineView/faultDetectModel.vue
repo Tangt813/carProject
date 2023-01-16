@@ -178,107 +178,121 @@ export default {
         this.$message.error('x,y,z之和不等于1!');
       }
       else{
-        this.waiting=true;
-        let that=this;
-        var url=util.faultDetectModelTrainUrl;
-        axios.get(url,{
-          params:{
-            n_estimators:this.n_estimators,
-            RF_max_depth:this.RF_max_depth,
-            XGB_max_depth:this.XGB_max_depth,
-            n_neighbors:this.n_neighbors,
-            x:this.x,
-            y:this.y,
-            z:this.z,
-          }
-        }).then(function (res) {
-
-          var train_set_result_hot_page=document.getElementById('train_set_result_hot_page');
-          var test_set_result_hot_page=document.getElementById('test_set_result_hot_page');
-
-          var train_set_result_table_string=res.data.result.test_data;
-          train_set_result_hot_page.src=res.data.result.test_image;
-          var test_set_result_table_string=res.data.result.train_data;
-          test_set_result_hot_page.src=res.data.result.train_image;
-          var train_set_result_table_string_list=train_set_result_table_string.split('\n');
-          var test_set_result_table_string_list=test_set_result_table_string.split('\n');
-          var train_set_result_table=document.getElementById('train_set_result_table');
-          var test_set_result_table=document.getElementById('test_set_result_table');
-          train_set_result_table.innerHTML='';
-          test_set_result_table.innerText='';
-          for(let i =0; i<train_set_result_table_string_list.length; i++)
-          {
-            var tr=document.createElement('tr');
-            var charList =train_set_result_table_string_list[i].split(' ');
-            if(i===0)
-            {
-              var td=document.createElement('td');
-              tr.appendChild(td);
+        this.$prompt('请输入模型名称', '模型名称', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /^[\s\S]*.*[^\s][\s\S]*$/,
+          inputErrorMessage: '请输入名称'
+        }).then(({ value }) => {
+          // console.log(value)
+          this.waiting=true;
+          let that=this;
+          var url=util.faultDetectModelTrainUrl;
+          axios.get(url,{
+            params:{
+              n_estimators:this.n_estimators,
+              RF_max_depth:this.RF_max_depth,
+              XGB_max_depth:this.XGB_max_depth,
+              n_neighbors:this.n_neighbors,
+              x:this.x,
+              y:this.y,
+              z:this.z,
+              name :value
             }
-            for(let j=0;j<charList.length;j++)
+          }).then(function (res) {
+
+            var train_set_result_hot_page=document.getElementById('train_set_result_hot_page');
+            var test_set_result_hot_page=document.getElementById('test_set_result_hot_page');
+
+            var train_set_result_table_string=res.data.result.test_data;
+            train_set_result_hot_page.src=res.data.result.test_image;
+            var test_set_result_table_string=res.data.result.train_data;
+            test_set_result_hot_page.src=res.data.result.train_image;
+            var train_set_result_table_string_list=train_set_result_table_string.split('\n');
+            var test_set_result_table_string_list=test_set_result_table_string.split('\n');
+            var train_set_result_table=document.getElementById('train_set_result_table');
+            var test_set_result_table=document.getElementById('test_set_result_table');
+            train_set_result_table.innerHTML='';
+            test_set_result_table.innerText='';
+            for(let i =0; i<train_set_result_table_string_list.length; i++)
             {
-              if(charList[j].replace(' ','').length!=0)
+              var tr=document.createElement('tr');
+              var charList =train_set_result_table_string_list[i].split(' ');
+              if(i===0)
               {
-                if(charList[j]==='macro'||charList[j]==='weighted')
+                var td=document.createElement('td');
+                tr.appendChild(td);
+              }
+              for(let j=0;j<charList.length;j++)
+              {
+                if(charList[j].replace(' ','').length!=0)
                 {
-                  var td=document.createElement('td');
-                  td.innerText=charList[j]+' '+charList[j+1];
-                  j++;
-                  tr.appendChild(td);
-                }
-                else
-                {
-                  var td=document.createElement('td');
-                  td.innerText=charList[j];
-                  tr.appendChild(td);
-                  if(charList[j]==='accuracy')
+                  if(charList[j]==='macro'||charList[j]==='weighted')
                   {
                     var td=document.createElement('td');
+                    td.innerText=charList[j]+' '+charList[j+1];
+                    j++;
                     tr.appendChild(td);
-                    td=document.createElement('td');
+                  }
+                  else
+                  {
+                    var td=document.createElement('td');
+                    td.innerText=charList[j];
                     tr.appendChild(td);
+                    if(charList[j]==='accuracy')
+                    {
+                      var td=document.createElement('td');
+                      tr.appendChild(td);
+                      td=document.createElement('td');
+                      tr.appendChild(td);
+                    }
+                  }
+                }
+
+              }
+              train_set_result_table.appendChild(tr);
+            }
+
+            for(let i =0; i<test_set_result_table_string_list.length; i++)
+            {
+              var tr=document.createElement('tr');
+              var charList =test_set_result_table_string_list[i].split(' ');
+              for(let j=0;j<charList.length;j++)
+              {
+                if(charList[j].replace(' ','').length!=0)
+                {
+                  if(charList[j]==='macro'||charList[j]==='weighted')
+                  {
+                    var td=document.createElement('td');
+                    td.innerText=charList[j]+' '+charList[j+1];
+                    j++;
+                    tr.appendChild(td);
+                  }
+                  else{
+                    var td=document.createElement('td');
+                    td.innerText=charList[j];
+                    tr.appendChild(td);
+                    if(charList[j]==='accuracy')
+                    {
+                      var td=document.createElement('td');
+                      tr.appendChild(td);
+                      td=document.createElement('td');
+                      tr.appendChild(td);
+                    }
                   }
                 }
               }
-
+              test_set_result_table.appendChild(tr);
             }
-            train_set_result_table.appendChild(tr);
-          }
+            that.waiting=false;
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
 
-          for(let i =0; i<test_set_result_table_string_list.length; i++)
-          {
-            var tr=document.createElement('tr');
-            var charList =test_set_result_table_string_list[i].split(' ');
-            for(let j=0;j<charList.length;j++)
-            {
-              if(charList[j].replace(' ','').length!=0)
-              {
-                if(charList[j]==='macro'||charList[j]==='weighted')
-                {
-                  var td=document.createElement('td');
-                  td.innerText=charList[j]+' '+charList[j+1];
-                  j++;
-                  tr.appendChild(td);
-                }
-                else{
-                  var td=document.createElement('td');
-                  td.innerText=charList[j];
-                  tr.appendChild(td);
-                  if(charList[j]==='accuracy')
-                  {
-                    var td=document.createElement('td');
-                    tr.appendChild(td);
-                    td=document.createElement('td');
-                    tr.appendChild(td);
-                  }
-                }
-              }
-            }
-            test_set_result_table.appendChild(tr);
-          }
-          that.waiting=false;
-          console.log(that.waiting)
-        })
       }
 
     },

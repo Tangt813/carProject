@@ -19,6 +19,21 @@
         </el-upload>
       </div>
 
+      <div class="mt10">
+        <span class="part_header">模型选择</span>
+        <span style="margin-left: 53px">
+          <el-select v-model="modelSelectValue" placeholder="请选择" style="width: 500px">
+            <el-option
+              v-for="item in modelList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </span>
+
+      </div>
+
 
       <div class="mt10">
         <div class="part_header">模型参数</div>
@@ -299,7 +314,7 @@
       </div>
 
       <div class="train">
-        <el-button  type="primary" @click="train()">训练模型</el-button>
+        <el-button  type="primary" @click="train()">数据输出</el-button>
         <el-button id="stop-button" type="primary" @click="stopTrain()">暂停</el-button>
       </div>
 
@@ -361,6 +376,8 @@ export default {
       faultAlarmModelDataUrl: util.faultAlarmModelDataUrl,
       tableData: [],
       stopFlag:false,
+      modelList:[],
+      modelSelectValue:'',
     }
   },
   methods: {
