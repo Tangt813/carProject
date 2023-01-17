@@ -21,8 +21,8 @@
 
       <div class="mt10">
         <span class="part_header">模型选择</span>
-        <span style="margin-left: 53px">
-          <el-select v-model="modelSelectValue" placeholder="请选择" style="width: 500px">
+        <span class="ml20">
+          <el-select v-model="modelSelectValue" placeholder="请选择" style="width: 90%">
             <el-option
               v-for="item in modelList"
               :key="item.value"
@@ -380,6 +380,13 @@ export default {
       modelSelectValue:'',
     }
   },
+  created() {
+    const url = util.modelListUrl;
+    let that = this;
+    axios.get(url,function (res) {
+      that.modelList = res.data.modelList;
+    })
+  },
   methods: {
     handleSuccess(res) {
       if (res.code === "200") {
@@ -406,7 +413,8 @@ export default {
         index523010_1: this.index523010_1,
         index523017_20: this.index523017_20,
         index5393_22: this.index5393_22,
-        index98_0: this.index98_0
+        index98_0: this.index98_0,
+        model:this.modelSelectValue,
       }
       this.$socket.emit('faultAlarmModelSocket',json);
     }
