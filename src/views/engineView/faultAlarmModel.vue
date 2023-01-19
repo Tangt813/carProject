@@ -316,6 +316,7 @@
       <div class="train">
         <el-button  type="primary" @click="train()">数据输出</el-button>
         <el-button id="stop-button" type="primary" @click="stopTrain()">暂停</el-button>
+        <el-button id="kill-button" type="primary" @click="killTrain()" :disabled="killFlag">终止</el-button>
       </div>
 
       <div class="mt10">
@@ -381,6 +382,7 @@ export default {
       modelList:[],
       modelSelectValue:'',
       timer:'',
+      killFlag:false,
     }
   },
   created() {
@@ -391,7 +393,6 @@ export default {
   },
   methods: {
     updateModelList(){
-      console.log(12)
       const url = util.modelListUrl;
       let that = this;
       axios.get(url).then(function (res) {
@@ -408,7 +409,17 @@ export default {
       this.stopFlag=!this.stopFlag;
       document.getElementById('stop-button').innerText=!this.stopFlag?"暂停":"继续"
     },
+    killTrain(){
+      const killUrl = util.killUrl;
+      let that = this;
+      axios.get(killUrl).then(function (res) {
+        if (res.status===200){
+          that.killFlag=true;
+        }
+      });
+    },
     train() {
+      this.killFlag=false;
       var json ={
         index4339_11: this.index4339_11,
         index157_4: this.index157_4,
@@ -426,7 +437,6 @@ export default {
         index98_0: this.index98_0,
         model_name: this.modelSelectValue,
       }
-      console.log(json)
       this.$socket.emit('faultAlarmModelSocket',json);
     },
     filterHandler(value, row, column) {
