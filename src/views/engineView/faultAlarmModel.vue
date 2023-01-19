@@ -5,7 +5,7 @@
     </el-header>
     <el-main>
       <div>
-        <div class="part_header">模型输入</div>
+        <div class="part_header">数据输入</div>
         <div style="text-align: center;font-weight: bold">导入汽车运行状态数据</div>
         <el-upload
           :action=this.faultAlarmModelUploadUrl
@@ -25,9 +25,9 @@
           <el-select v-model="modelSelectValue" placeholder="请选择" style="width: 90%">
             <el-option
               v-for="item in modelList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
         </span>
@@ -334,6 +334,8 @@
             <el-table-column
               label="故障类型"
               prop="type"
+              :filters="[{text: 'Alert1', value: 'Alert1'}, {text: 'Alert2', value: 'Alert2'}, {text: 'Normal', value: 'Normal'}]"
+              :filter-method="filterHandler"
             >
             </el-table-column>
 
@@ -383,8 +385,8 @@ export default {
   created() {
     const url = util.modelListUrl;
     let that = this;
-    axios.get(url,function (res) {
-      that.modelList = res.data.modelList;
+    axios.get(url).then(function (res) {
+      that.modelList = res.data.result;
     })
   },
   methods: {
@@ -414,9 +416,14 @@ export default {
         index523017_20: this.index523017_20,
         index5393_22: this.index5393_22,
         index98_0: this.index98_0,
-        model:this.modelSelectValue,
+        model_name: this.modelSelectValue,
       }
+      console.log(json)
       this.$socket.emit('faultAlarmModelSocket',json);
+    },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property].indexOf(value) !== -1;
     }
   },
   sockets:{
