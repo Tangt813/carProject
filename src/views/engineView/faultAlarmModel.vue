@@ -334,7 +334,7 @@
             <el-table-column
               label="故障类型"
               prop="type"
-              :filters="[{text: 'Alert1', value: 'Alert1'}, {text: 'Alert2', value: 'Alert2'}, {text: 'Normal', value: 'Normal'}]"
+              :filters="[{text: 'Alert1', value: 'Alert1'}, {text: 'Alert2', value: 'Alert2'}, {text: 'All is Well', value: 'All is well'}]"
               :filter-method="filterHandler"
             >
             </el-table-column>
@@ -380,16 +380,24 @@ export default {
       stopFlag:false,
       modelList:[],
       modelSelectValue:'',
+      timer:'',
     }
   },
   created() {
-    const url = util.modelListUrl;
-    let that = this;
-    axios.get(url).then(function (res) {
-      that.modelList = res.data.result;
-    })
+    this.timer = setInterval(this.updateModelList,5000);
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer)
   },
   methods: {
+    updateModelList(){
+      console.log(12)
+      const url = util.modelListUrl;
+      let that = this;
+      axios.get(url).then(function (res) {
+        that.modelList = res.data.result;
+      })
+    },
     handleSuccess(res) {
       if (res.code === "200") {
       } else {
@@ -431,9 +439,9 @@ export default {
       if(!this.stopFlag)
       {
         this.tableData.unshift(data.data)
-        if(this.tableData.length>100)
+        if(this.tableData.length>500)
         {
-          this.tableData=this.tableData.slice(0,100)
+          this.tableData=this.tableData.slice(0,500)
         }
       }
     }

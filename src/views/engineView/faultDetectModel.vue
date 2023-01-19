@@ -197,7 +197,7 @@ export default {
               x:this.x,
               y:this.y,
               z:this.z,
-              name :value
+              model_name :value
             }
           }).then(function (res) {
 
