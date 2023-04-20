@@ -48,25 +48,6 @@
 
         <el-row :gutter="5">
           <el-col :span="4">
-            <div class="cell-content bg-purple">4339|11</div>
-          </el-col>
-          <el-col :span="20" title="请输入0-1以内的值">
-            <div class="parameter bg-purple cell-content">
-              <el-slider
-                v-model="index4339_11"
-                :max="1"
-                :min=0
-                :step="0.01"
-                input-size="small"
-                show-input
-                style="width: 98%;margin-left: 5px">
-              </el-slider>
-            </div>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="5">
-          <el-col :span="4">
             <div class="cell-content bg-purple">157|4</div>
           </el-col>
           <el-col :span="20" title="请输入0-1以内的值">
@@ -111,6 +92,25 @@
             <div class="parameter bg-purple cell-content">
               <el-slider
                 v-model="index3826_0"
+                :max="1"
+                :min=0
+                :step="0.01"
+                input-size="small"
+                show-input
+                style="width: 98%;margin-left: 5px">
+              </el-slider>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="5">
+          <el-col :span="4">
+            <div class="cell-content bg-purple">4339|11</div>
+          </el-col>
+          <el-col :span="20" title="请输入0-1以内的值">
+            <div class="parameter bg-purple cell-content">
+              <el-slider
+                v-model="index4339_11"
                 :max="1"
                 :min=0
                 :step="0.01"
@@ -361,10 +361,10 @@ export default {
   },
   data() {
     return {
-      index4339_11: 0.35,
       index157_4: 0.45,
       index2123_2: 0.25,
       index3826_0: 0.75,
+      index4339_11: 0.5,
       index520243_1: 0.5,
       index520243_4: 0.3,
       index520266_4: 0.25,

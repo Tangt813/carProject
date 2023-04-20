@@ -434,12 +434,13 @@ aside .el-submenu .el-menu-item.is-active:hover, aside .el-menu-item.is-active:h
   background: #00c1de;
   width: 80%;
   margin-left: 10%;
-  height: 900px;
+  height: fit-content;
   text-align: center;
 }
 .text{
   font-size: 20px;
-  float: left;
+  width: 100%;
+  text-align: left;
 }
 .text span{
   float: left;

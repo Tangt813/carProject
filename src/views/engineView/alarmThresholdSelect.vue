@@ -51,7 +51,7 @@
             </el-table-column>
 
             <el-table-column
-            prop="time_gap"
+            prop="misreport"
             label="误报率"
             >
             </el-table-column>

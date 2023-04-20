@@ -286,6 +286,10 @@ export default {
             }
             that.waiting=false;
           })
+            .catch(()=>{
+              this.$message.error('请先上传数据');
+              that.waiting=false;
+          })
         }).catch(() => {
           this.$message({
             type: 'info',
